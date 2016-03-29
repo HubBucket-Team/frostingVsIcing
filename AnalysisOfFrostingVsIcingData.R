@@ -74,17 +74,24 @@ chisq.test(Doughnut) # no effect
 
 #FondantCake data
 FondantCake <- rbind(same = table(same$FondantCake), diff = table(different$FondantCake))
+colnames(FondantCake)[2] <- "Fondant"
 barplot(prop.table(FondantCake, 1), beside=TRUE, legend = row.names(FondantCake), main = "Cake with Fondant", ylim = c(0,1))
 chisq.test(FondantCake) # weak effect
 
 #BundtCake data
 BundtCake <- rbind(same = table(same$BundtCake), diff = table(different$BundtCake))
-barplot(prop.table(BundtCake, 1), beside=TRUE, legend = row.names(BundtCake))
+BundtCake <- BundtCake[,2:6]
+colnames(BundtCake) <- c("Either", "Frosting","Glaze","Glaze"   ,"Icing"  )
+BundtCake <- cbind(BundtCake, Glaze = (BundtCake[,3] + BundtCake[,4]))
+BundtCake <- BundtCake[,c(1:2, 5:6)]
+barplot(prop.table(BundtCake, 1), beside=TRUE, legend = row.names(BundtCake), main = "Bundt Cake", 
+        ylim = c(0,1))
 chisq.test(BundtCake) # no effect at p = 0.05
 
 #Roll data
 Roll <- rbind(same = table(same$Roll), diff = table(different$Roll))
-barplot(prop.table(Roll, 1), beside=TRUE, legend = row.names(Roll))
+colnames(Roll)[3] <- "Glaze"
+barplot(prop.table(Roll, 1), beside=TRUE, legend = row.names(Roll), main = "Cinnamon Roll", ylim = c(0,1))
 chisq.test(Roll) # effect
 
 # now let's try looking at all responses
